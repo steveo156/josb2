@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VacanteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,11 +23,12 @@ Route::get('/', function () {
 // Si en el middleware se tiene la opcion auth significa que el usuario debe estar autenticado, si tiene verified significa que el usuario debe estar verificado por email para poder usar su cuenta
 
 // Para que la verificacion funcione tambien se debe especificar el modelo Models/User
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
-
+Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified'])->name('vacantes.index');
+Route::get('/vacantes/create', [VacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes.create');
 
 
 Route::middleware('auth')->group(function () {
@@ -35,4 +37,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
