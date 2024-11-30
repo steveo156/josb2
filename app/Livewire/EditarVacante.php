@@ -25,7 +25,7 @@ class EditarVacante extends Component
         $this->empresa = $vacante->empresa;
         $this->ultimo_dia = Carbon::parse($vacante->ultimo_dia)->format('Y-m-d');
         $this->descripcion = $vacante->descripcion;
-        $this->imagen = $vacante->iamgen;
+        $this->imagen = $vacante->imagen;
     }
     public function render()
     {
