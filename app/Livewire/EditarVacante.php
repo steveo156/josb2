@@ -7,9 +7,11 @@ use Livewire\Component;
 use App\Models\Categoria;
 use App\Models\Vacante;
 use Illuminate\Support\Carbon;
+use Livewire\WithFileUploads;
 
 class EditarVacante extends Component
 {
+    public $id;
     public $titulo;
     public $salario;
     public $categoria;
@@ -17,8 +19,23 @@ class EditarVacante extends Component
     public $ultimo_dia;
     public $descripcion;
     public $imagen;
+    public $imagen_nueva;
+
+    use WithFileUploads;
+
+    protected $rules = [
+        'titulo' => 'required|string',
+        'salario' => 'required',
+        'categoria' => 'required',
+        'empresa' => 'required',
+        'ultimo_dia' => 'required|date',
+        'descripcion' => 'required',
+        'imagen_nueva' => 'nullable|image|max:12000',
+    ];
+
     public function mount(Vacante $vacante)
     {
+        $this->id = $vacante->id; //Esta linea es el atributo a encontrar para editar la vacante
         $this->titulo = $vacante->titulo;
         $this->salario = $vacante->salario_id;
         $this->categoria = $vacante->categoria_id;
@@ -27,6 +44,39 @@ class EditarVacante extends Component
         $this->descripcion = $vacante->descripcion;
         $this->imagen = $vacante->imagen;
     }
+
+    public function editarVacante()
+    {
+        $datos = $this->validate();
+
+        //Si hay una nueva imagen 
+        if ($this->imagen_nueva) {
+            $imagen = $this->imagen_nueva->store('public/vacantes');
+            $datos['imagen'] = str_replace('public/vacantes/', '', $imagen);
+        }
+
+
+        //Encontrar la vacante a editar
+        $vacante = Vacante::find($this->id);
+
+        //Asignar los valores
+        $vacante->titulo = $datos['titulo'];
+        $vacante->salario_id = $datos['salario'];
+        $vacante->categoria_id = $datos['categoria'];
+        $vacante->empresa = $datos['empresa'];
+        $vacante->ultimo_dia = $datos['ultimo_dia'];
+        $vacante->descripcion = $datos['descripcion'];
+        $vacante->imagen = $datos['imagen'] ?? $vacante->imagen;
+
+        //Guardar la vacante
+        $vacante->save();
+
+        //Redireccionar
+        session()->flash('mensaje', 'La vacante se actualizó correctamente');
+
+        return redirect()->route('vacantes.index');
+    }
+
     public function render()
     {
         $salarios = Salario::all();

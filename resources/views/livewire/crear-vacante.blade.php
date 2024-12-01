@@ -55,7 +55,7 @@
         <x-text-input id="empresa" class="block mt-1 w-full" type="text" wire:model="empresa" :value="old('empresa')"
             placeholder="Empresa: ej. Netflix, Google, Udemy" />
 
-        @error('titulo')
+        @error('empresa')
         <livewire:mostrarAlerta :message="$message" />
         @enderror
     </div>

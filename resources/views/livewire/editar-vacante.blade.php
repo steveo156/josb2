@@ -1,4 +1,4 @@
-<form class="md:w-1/2 space-y-5" action="" wire:submit.prevent='crearVacante'>
+<form class="md:w-1/2 space-y-5" action="" wire:submit.prevent='editarVacante'>
     <div>
         <x-input-label for="titulo" :value="__('Título vacante')" />
 
@@ -55,7 +55,7 @@
         <x-text-input id="empresa" class="block mt-1 w-full" type="text" wire:model="empresa" :value="old('empresa')"
             placeholder="Empresa: ej. Netflix, Google, Udemy" />
 
-        @error('titulo')
+        @error('empresa')
         <livewire:mostrarAlerta :message="$message" />
         @enderror
     </div>
@@ -85,14 +85,10 @@
 
 
     <div>
-        {{-- <div class="my-5 w-56 ">
-            @if($imagen)
-            <img src="{{$imagen->temporaryUrl()}}" alt="">
-            @endif
-        </div> --}}
+
         <x-input-label for="imagen" :value="__('Imagen')" />
 
-        <x-text-input id="imagen" class="block mt-1 w-full" type="file" wire:model="imagen" accept="image/*" />
+        <x-text-input id="imagen" class="block mt-1 w-full" type="file" wire:model="imagen_nueva" accept="image/*" />
 
         <div class="my-5 w-80">
             <x-input-label :value="__('Imagen Actual')" />
@@ -102,14 +98,20 @@
         {{-- Gracias a wire:model tenemos el "Two way data binding" o enlace de datos bidireccional donde se envian
         datos al servidor y se obtiene una respuesta en el front --}}
 
+        <div class="my-5 w-56 ">
+            @if($imagen_nueva)
+            <x-input-label :value="__('Imagen Nueva')" />
+            <img src="{{$imagen_nueva->temporaryUrl()}}" alt="">
+            @endif
+        </div>
 
-        @error('imagen')
+        @error('imagen_nueva')
         <livewire:mostrarAlerta :message="$message" />
         @enderror
     </div>
 
     <x-primary-button>
-        Crear vacante
+        Editar vacante
     </x-primary-button>
 
 </form>
