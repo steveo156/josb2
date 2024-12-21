@@ -10,6 +10,7 @@
                     </a>
                 </div>
 
+                @auth
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('vacantes.index')" :active="request()->routeIs('vacantes.index')">
@@ -19,10 +20,13 @@
                         {{ __('Crear vacante') }}
                     </x-nav-link>
                 </div>
+                @endauth
+
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
@@ -56,6 +60,19 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                @endauth
+
+                @guest
+                <!-- Navigation Links -->
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('login')">
+                        {{ __('Iniciar sesion') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('register')">
+                        {{ __('Crear cuenta') }}
+                    </x-nav-link>
+                </div>
+                @endguest
             </div>
 
             <!-- Hamburger -->
@@ -76,6 +93,9 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+
+        @auth
+
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('vacantes.index')" :active="request()->routeIs('vacantes.index')">
                 {{ __('Mis vacantes') }}
@@ -84,8 +104,9 @@
                 {{ __('Crear vacante') }}
             </x-responsive-nav-link>
         </div>
-
         <!-- Responsive Settings Options -->
+
+
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
@@ -108,5 +129,18 @@
                 </form>
             </div>
         </div>
+
+        @endauth
+
+        @guest
+        <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('login')">
+                {{ __('Iniciar sesion') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('register')" :active="request()->routeIs('vacantes.create')">
+                {{ __('Crear cuenta') }}
+            </x-responsive-nav-link>
+        </div>
+        @endguest
     </div>
 </nav>
