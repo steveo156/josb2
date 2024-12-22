@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\NotificacionController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacanteController;
+use Illuminate\Notifications\Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +35,10 @@ Route::get('/vacantes/create', [VacanteController::class, 'create'])->middleware
 Route::get('/vacantes/{vacante}/edit', [VacanteController::class, 'edit'])->middleware(['auth', 'verified'])->name('vacantes.edit');
 Route::get('/vacantes/{vacante}', [VacanteController::class, 'show'])->name('vacantes.show');
 
+
+//Notificaciones
+
+Route::get('/notificaciones', NotificacionController::class)->name('notificaciones.index');
 
 
 Route::middleware('auth')->group(function () {
