@@ -20,7 +20,7 @@ use Illuminate\Notifications\Notification;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 
 // Si en el middleware se tiene la opcion auth significa que el usuario debe estar autenticado, si tiene verified significa que el usuario debe estar verificado por email para poder usar su cuenta
@@ -30,7 +30,7 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified'])->name('vacantes.index');
+Route::get('/dashboard', [VacanteController::class, 'index'])->middleware(['auth', 'verified', 'rol.reclutador'])->name('vacantes.index');
 Route::get('/vacantes/create', [VacanteController::class, 'create'])->middleware(['auth', 'verified'])->name('vacantes.create');
 Route::get('/vacantes/{vacante}/edit', [VacanteController::class, 'edit'])->middleware(['auth', 'verified'])->name('vacantes.edit');
 Route::get('/vacantes/{vacante}', [VacanteController::class, 'show'])->name('vacantes.show');
@@ -38,7 +38,7 @@ Route::get('/vacantes/{vacante}', [VacanteController::class, 'show'])->name('vac
 
 //Notificaciones
 
-Route::get('/notificaciones', NotificacionController::class)->name('notificaciones.index');
+Route::get('/notificaciones', NotificacionController::class)->middleware(['auth', 'verified', 'rol.reclutador'])->name('notificaciones.index');
 
 
 Route::middleware('auth')->group(function () {
