@@ -12,8 +12,10 @@
                 </div>
 
                 <div class="flex flex-col md:flex-row gap-3 items-stretch mt-5 md:mt-0">
-                    <a href="http://"
+                    <a href="{{ route('candidatos.index', $vacante->id) }}"
                         class="bg-slate-800 py-2 px-4 rounded-lg text-white text-xs font-bold uppercase text-center">
+
+                        {{ $vacante->candidatos->count() }}
                         Candidatos
                     </a>
 
