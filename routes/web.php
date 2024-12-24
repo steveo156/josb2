@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notification;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacanteController;
 use App\Http\Controllers\CandidatoController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificacionController;
 
 /*
@@ -19,9 +20,7 @@ use App\Http\Controllers\NotificacionController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', HomeController::class)->name('home');
 
 
 // Si en el middleware se tiene la opcion auth significa que el usuario debe estar autenticado, si tiene verified significa que el usuario debe estar verificado por email para poder usar su cuenta
